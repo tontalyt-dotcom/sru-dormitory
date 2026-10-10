@@ -23,8 +23,8 @@ class RoomSelector {
 
     this.container.innerHTML = `
       <div style="text-align: center; padding: 40px; color: #6b7280;">
-        <div style="font-size: 2rem; margin-bottom: 8px;">⏳</div>
-        <div>กำลังโหลดผังห้องพักและสถานะเตียง...</div>
+        <div style="font-weight: 600; margin-bottom: 4px;">กำลังโหลดผังห้องพักและสถานะเตียง...</div>
+        <div style="font-size: 0.85rem; color: #94a3b8;">กรุณารอสักครู่</div>
       </div>
     `;
 
@@ -87,7 +87,7 @@ class RoomSelector {
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
           <div>
             <h4 style="font-size: 1.05rem; font-weight: 700; color: #471764; margin-bottom: 2px;">
-              🏢 ผังห้องพัก: ${this.dormData ? this.dormData.name : ''}
+              ผังห้องพัก: ${this.dormData ? this.dormData.name : ''}
             </h4>
             <p style="font-size: 0.82rem; color: #6b7280;">คลิกเลือกเตียงนอนที่ว่างในห้องพักที่ต้องการ</p>
           </div>
@@ -156,7 +156,7 @@ class RoomSelector {
         html += `
           <div class="${bedClass}" ${clickHandler} title="${bed.is_occupied ? `มีผู้พักแล้ว (${bed.occupant ? bed.occupant.full_name : ''})` : `เตียงที่ ${bed.bed_number} ว่าง คลิกเพื่อจอง`}">
             <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-              <span>🛏️ เตียง ${bed.bed_number}</span>
+              <span>เตียง ${bed.bed_number}</span>
               ${isSelectedBed ? '<span>✓</span>' : ''}
             </div>
             ${bed.is_occupied ? `<div class="bed-occupant-name">${bed.occupant ? bed.occupant.full_name : 'มีผู้จอง'}</div>` : '<div style="font-size: 0.68rem; color: #059669;">ว่าง</div>'}

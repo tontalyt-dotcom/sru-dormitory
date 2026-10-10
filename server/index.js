@@ -252,8 +252,14 @@ app.post('/api/applications', async (req, res) => {
     }
 
     // Check duplicate
-    const existing = await db.get('SELECT id FROM applications WHERE citizen_id = ?', [citizen_id]);
+    const existing = await db.get('SELECT id, status FROM applications WHERE citizen_id = ?', [citizen_id]);
     if (existing) {
+      if (existing.status === 'approved') {
+        return res.status(400).json({
+          success: false,
+          message: `เลขบัตรประจำตัวประชาชนนี้ (${citizen_id}) ได้รับการอนุมัติเป็นสมาชิกหอพักเรียบร้อยแล้ว ไม่สามารถสมัครซ้ำได้`
+        });
+      }
       return res.status(400).json({
         success: false,
         message: `เลขบัตรประจำตัวประชาชนนี้ (${citizen_id}) ได้ทำการสมัครไว้แล้ว หากต้องการแก้ไขข้อมูล กรุณาเข้าสู่ระบบตรวจสอบข้อมูล`
@@ -1190,7 +1196,7 @@ app.get('/api/admin/submissions', async (req, res) => {
   }
 });
 
-// Admin Review Submission (เมื่อตรวจแล้ว เพิ่มคะแนนให้นักศึกษาถาวร)
+// Admin Review Submission (เมื่อตรวจแล้ว เพิ่ม/ลด คะแนนให้นักศึกษาตามผลการตรวจ)
 app.put('/api/admin/submissions/:id/review', async (req, res) => {
   try {
     const { id } = req.params;
@@ -1207,15 +1213,36 @@ app.put('/api/admin/submissions/:id/review', async (req, res) => {
       return res.status(404).json({ success: false, message: 'ไม่พบรายการส่งกิจกรรม' });
     }
 
-    const points = status === 'approved' ? (granted_points !== undefined ? parseInt(granted_points, 10) : sub.default_points) : 0;
+    const prevStatus = sub.status || 'pending';
+    const prevPoints = (prevStatus === 'approved') ? parseInt(sub.granted_points || 0, 10) : 0;
+    
+    let newPoints = 0;
+    if (status === 'approved') {
+      newPoints = (granted_points !== undefined && granted_points !== null && granted_points !== '')
+        ? parseInt(granted_points, 10) 
+        : parseInt(sub.default_points || 0, 10);
+    } else {
+      newPoints = 0;
+    }
 
-    // Permanently credit points to the student record
-    if (status === 'approved' && points > 0) {
-      await db.run(`
-        UPDATE applications SET 
-          activity_points = COALESCE(activity_points, 0) + ?
-        WHERE citizen_id = ?
-      `, [points, sub.citizen_id]);
+    // Calculate score change delta
+    const deltaPoints = newPoints - prevPoints;
+
+    if (deltaPoints !== 0) {
+      if (deltaPoints > 0) {
+        await db.run(`
+          UPDATE applications SET 
+            activity_points = COALESCE(activity_points, 0) + ?
+          WHERE citizen_id = ?
+        `, [deltaPoints, sub.citizen_id]);
+      } else {
+        const deduction = Math.abs(deltaPoints);
+        await db.run(`
+          UPDATE applications SET 
+            activity_points = CASE WHEN COALESCE(activity_points, 0) <= ? THEN 0 ELSE activity_points - ? END
+          WHERE citizen_id = ?
+        `, [deduction, deduction, sub.citizen_id]);
+      }
     }
 
     const updateSql = db.isMySQL()
@@ -1224,17 +1251,24 @@ app.put('/api/admin/submissions/:id/review', async (req, res) => {
 
     await db.run(updateSql, [
       status,
-      points,
+      newPoints,
       admin_comment || '',
       checked_by || 'ผู้ดูแลระบบหอพัก',
       id
     ]);
 
+    let responseMsg = '';
+    if (status === 'approved') {
+      responseMsg = `อนุมัติกิจกรรมและบันทึก ${newPoints} คะแนนเรียบร้อยแล้ว`;
+    } else if (prevStatus === 'approved' && prevPoints > 0) {
+      responseMsg = `เปลี่ยนสถานะเป็นไม่อนุมัติ และหักคืนคะแนนเดิม ${prevPoints} แต้มเรียบร้อยแล้ว`;
+    } else {
+      responseMsg = 'บันทึกการไม่อนุมัติกิจกรรมเรียบร้อยแล้ว';
+    }
+
     res.json({
       success: true,
-      message: status === 'approved' 
-        ? `อนุมัติกิจกรรมและเพิ่ม ${points} คะแนนเรียบร้อยแล้ว! (ข้อมูลจะถูกนำออกจากคิวตรวจอัตโนมัติ)` 
-        : 'บันทึกการไม่อนุมัติเรียบร้อยแล้ว'
+      message: responseMsg
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -1245,8 +1279,18 @@ app.put('/api/admin/submissions/:id/review', async (req, res) => {
 app.delete('/api/admin/submissions/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    const sub = await db.get('SELECT * FROM activity_submissions WHERE id = ?', [id]);
+    if (sub && sub.status === 'approved' && sub.granted_points > 0) {
+      const deduction = parseInt(sub.granted_points, 10);
+      await db.run(`
+        UPDATE applications SET 
+          activity_points = CASE WHEN COALESCE(activity_points, 0) <= ? THEN 0 ELSE activity_points - ? END
+        WHERE citizen_id = ?
+      `, [deduction, deduction, sub.citizen_id]);
+    }
+
     await db.run('DELETE FROM activity_submissions WHERE id = ?', [id]);
-    res.json({ success: true, message: 'ลบรายการกิจกรรมเรียบร้อยแล้ว' });
+    res.json({ success: true, message: 'ลบรายการกิจกรรมและปรับปรุงคะแนนเรียบร้อยแล้ว' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -1379,7 +1423,7 @@ async function startServer() {
   await initDatabase();
   app.listen(PORT, () => {
     console.log(`===========================================================`);
-    console.log(`🏰 SRU Dormitory Web System is running on http://localhost:${PORT}`);
+    console.log(`SRU Dormitory Web System is running on http://localhost:${PORT}`);
     console.log(`===========================================================`);
   });
 }

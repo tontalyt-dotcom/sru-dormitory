@@ -16,16 +16,7 @@
     <div class="sidebar-header">
       <div class="logo-container">
         <div class="sru-crest-badge">
-          <!-- SRU Official Emblem SVG -->
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="46" fill="#15803d" stroke="#eab308" stroke-width="4"/>
-            <circle cx="50" cy="50" r="38" fill="#1e3a8a" stroke="#ffffff" stroke-width="2"/>
-            <circle cx="50" cy="50" r="30" fill="#facc15"/>
-            <path d="M50 16 L56 30 L68 32 L58 40 L62 54 L50 46 L38 54 L42 40 L32 32 L44 30 Z" fill="#b91c1c" stroke="#ffffff" stroke-width="1.5"/>
-            <circle cx="50" cy="50" r="14" fill="#ffffff"/>
-            <circle cx="50" cy="50" r="9" fill="#15803d"/>
-            <circle cx="50" cy="50" r="4" fill="#eab308"/>
-          </svg>
+          <img src="/images/sru-logo.png" alt="ตราสัญลักษณ์ มหาวิทยาลัยราชภัฏสุรินทร์" class="sru-logo-img">
         </div>
         <div>
           <div class="sidebar-title">ระบบจองห้องพักหอใน</div>
@@ -40,40 +31,40 @@
       <div class="nav-section-title">เมนูหลัก (Main Menu)</div>
 
       <div class="nav-item active" data-view="home" onclick="navigateTo('home')">
-        <span class="nav-item-icon">🏠</span>
+        <span class="nav-dot"></span>
         <span>หน้าหลัก</span>
       </div>
 
       <div class="nav-item" data-view="register" onclick="navigateTo('register')">
-        <span class="nav-item-icon">✍️</span>
+        <span class="nav-dot"></span>
         <span>สมัครเข้าหอใน</span>
         <span id="nav-reg-badge" class="nav-badge">เปิดรับ</span>
       </div>
 
       <div class="nav-item" data-view="manage" onclick="navigateTo('manage')">
-        <span class="nav-item-icon">📋</span>
+        <span class="nav-dot"></span>
         <span>ติดตามสถานะใบสมัคร</span>
       </div>
 
       <div class="nav-item" data-view="directory" onclick="navigateTo('directory')">
-        <span class="nav-item-icon">👥</span>
+        <span class="nav-dot"></span>
         <span>รายชื่อผู้สมัคร (รออนุมัติ)</span>
       </div>
 
       <div class="nav-item" data-view="announcements" onclick="navigateTo('announcements')">
-        <span class="nav-item-icon">📢</span>
+        <span class="nav-dot"></span>
         <span>ประกาศรายชื่อผู้มีสิทธิ์</span>
       </div>
 
       <div class="nav-section-title" style="margin-top: 10px;">สมาชิกหอพัก (Resident Portal)</div>
 
       <div class="nav-item" data-view="resident" onclick="navigateTo('resident')">
-        <span class="nav-item-icon">👤</span>
+        <span class="nav-dot"></span>
         <span>ข้อมูลสมาชิกหอพัก</span>
       </div>
 
       <div class="nav-item" data-view="activities" onclick="navigateTo('activities')">
-        <span class="nav-item-icon">🏆</span>
+        <span class="nav-dot"></span>
         <span>เช็คกิจกรรม & คะแนนหอ</span>
         <span class="nav-badge points">≥ 80 แต้ม</span>
       </div>
@@ -82,7 +73,7 @@
       <div id="admin-nav-section" style="display: none; margin-top: 10px;">
         <div class="nav-section-title" style="color: #fbbf24;">ผู้ดูแลระบบ (Administrator)</div>
         <div class="nav-item" data-view="admin" onclick="navigateTo('admin')">
-          <span class="nav-item-icon">⚙️</span>
+          <span class="nav-dot admin-dot"></span>
           <span style="font-weight: 700; color: #fbbf24;">ระบบผู้ดูแลระบบ (Admin)</span>
         </div>
       </div>
@@ -96,7 +87,7 @@
       <!-- Hidden Admin Login Link for Security & Admin Direct Access -->
       <div style="text-align: center; margin-top: 8px;">
         <a href="javascript:void(0)" onclick="openAdminLoginModal()" style="font-size: 0.72rem; color: rgba(255,255,255,0.4); text-decoration: none;">
-          🔒 เจ้าหน้าที่หอพัก
+          เข้าสู่ระบบเจ้าหน้าที่หอพัก
         </a>
       </div>
     </div>
@@ -148,7 +139,7 @@
 
         <!-- Dormitories Grid -->
         <div class="section-heading">
-          <h3 class="section-title">🏢 ข้อมูลหอพักนักศึกษาทั้ง 5 อาคาร</h3>
+          <h3 class="section-title">ข้อมูลหอพักนักศึกษาทั้ง 5 อาคาร</h3>
           <span style="font-size: 0.85rem; color: #6b7280;">ชาย 1 หอพัก | หญิง 4 หอพัก</span>
         </div>
         <div id="home-dormitories-grid" class="dorm-grid"></div>
@@ -214,8 +205,8 @@
        ========================================================= -->
   <div id="logout-confirm-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 440px; text-align: center; border-radius: 20px; overflow: hidden; padding: 32px 28px;">
-      <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #fee2e2 0%, #ffedd5 100%); color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 18px auto; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.15);">
-        🚪
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; margin: 0 auto 18px auto; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.15);">
+        !
       </div>
       <h3 style="font-size: 1.35rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">ยืนยันการออกจากระบบ</h3>
       <p style="font-size: 0.92rem; color: #64748b; line-height: 1.6; margin-bottom: 26px;">
@@ -223,10 +214,10 @@
       </p>
       <div style="display: flex; gap: 12px; justify-content: center;">
         <button type="button" class="btn btn-secondary" onclick="closeLogoutModal()" style="min-width: 110px; border-radius: 12px; padding: 10px 18px;">
-          ✕ ยกเลิก
+          ยกเลิก
         </button>
         <button type="button" class="btn btn-danger" onclick="executeLogout()" style="min-width: 150px; border-radius: 12px; padding: 10px 20px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); font-weight: 700; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);">
-          🚪 ยืนยันออกจากระบบ
+          ยืนยันออกจากระบบ
         </button>
       </div>
     </div>

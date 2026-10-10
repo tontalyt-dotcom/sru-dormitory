@@ -17,11 +17,7 @@ function showToast(message, type = 'info') {
 
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  let icon = 'ℹ️';
-  if (type === 'success') icon = '✅';
-  if (type === 'error') icon = '⚠️';
-
-  toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+  toast.innerHTML = `<span>${message}</span>`;
   container.appendChild(toast);
 
   setTimeout(() => {
@@ -156,13 +152,13 @@ function updateUserStatusWidget() {
     if (AppState.loggedInAdmin || AppState.loggedInStudent) {
       headerAuth.innerHTML = `
         <button class="btn-header btn-header-outline" onclick="confirmLogout()" title="ออกจากระบบ">
-          <span>🚪</span> ออกจากระบบ (Logout)
+          ออกจากระบบ (Logout)
         </button>
       `;
     } else {
       headerAuth.innerHTML = `
         <button class="btn-header btn-header-outline" onclick="openLoginModal()">
-          <span>🔑</span> เข้าสู่ระบบ
+          เข้าสู่ระบบ
         </button>
       `;
     }
@@ -172,12 +168,12 @@ function updateUserStatusWidget() {
 
   if (AppState.loggedInAdmin) {
     userWidget.innerHTML = `
-      <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">👑</div>
+      <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669); font-weight:700;">A</div>
       <div class="user-info">
         <div class="user-name">${AppState.loggedInAdmin.name}</div>
         <div class="user-role">ผู้ดูแลระบบหอพัก (Admin)</div>
       </div>
-      <button onclick="confirmLogout()" title="ออกจากระบบ" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:1.1rem;">🚪</button>
+      <button onclick="confirmLogout()" title="ออกจากระบบ" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.8rem; font-weight:600; padding:2px 6px;">ออก</button>
     `;
   } else if (AppState.loggedInStudent) {
     const st = AppState.loggedInStudent;
@@ -190,19 +186,19 @@ function updateUserStatusWidget() {
       <div class="user-info">
         <div class="user-name">${st.prefix} ${st.first_name} ${st.last_name}</div>
         <div class="user-role" style="color: ${isApproved ? '#34d399' : '#fcd34d'};">
-          ${isApproved ? '✓ สมาชิกหอใน' : '⏳ รอการอนุมัติ'}
+          ${isApproved ? ' สมาชิกหอใน' : '⏳ รอการอนุมัติ'}
         </div>
       </div>
-      <button onclick="confirmLogout()" title="ออกจากระบบ" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:1.1rem;">🚪</button>
+      <button onclick="confirmLogout()" title="ออกจากระบบ" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:0.8rem; font-weight:600; padding:2px 6px;">ออก</button>
     `;
   } else {
     userWidget.innerHTML = `
-      <div class="user-avatar" style="background: rgba(255,255,255,0.15);">👤</div>
+      <div class="user-avatar" style="background: rgba(255,255,255,0.15); font-weight:700;">U</div>
       <div class="user-info">
         <div class="user-name">ผู้ใช้ทั่วไป</div>
         <div class="user-role">ยังไม่ได้เข้าสู่ระบบ</div>
       </div>
-      <button onclick="openLoginModal()" title="เข้าสู่ระบบ" style="background:none; border:none; color:#e5a93b; cursor:pointer; font-size:1.1rem;">🔑</button>
+      <button onclick="openLoginModal()" title="เข้าสู่ระบบ" style="background:none; border:none; color:#e5a93b; cursor:pointer; font-size:0.8rem; font-weight:600; padding:2px 6px;">เข้าสู่ระบบ</button>
     `;
   }
 }
@@ -276,14 +272,14 @@ function renderStudentPortalBanner() {
             <span>ข้อมูลการสมัครเข้าหอในของคุณ</span>
           </div>
           <span style="font-size:0.8rem; background:rgba(255,255,255,0.22); padding:3px 12px; border-radius:12px; font-weight:700;">
-            ${isApproved ? '✅ ได้รับการอนุมัติเข้าพักแล้ว' : '⏳ อยู่ระหว่างรอการตรวจสอบและอนุมัติจากผู้ดูแลระบบ'}
+            ${isApproved ? ' ได้รับการอนุมัติเข้าพักแล้ว' : '⏳ อยู่ระหว่างรอการตรวจสอบและอนุมัติจากผู้ดูแลระบบ'}
           </span>
         </div>
         <div class="profile-banner-body">
           <div class="info-row">
             <div class="info-label">สถานะใบสมัคร :</div>
             <div class="info-val ${isApproved ? 'success' : 'highlight'}">
-              ${isApproved ? '✓ ผ่านการอนุมัติแล้ว (เป็นสมาชิกหอพัก)' : '⏳ ส่งใบสมัครแล้ว (รอแอดมินอนุมัติ & รอประกาศรายชื่อ)'}
+              ${isApproved ? ' ผ่านการอนุมัติแล้ว (เป็นสมาชิกหอพัก)' : '⏳ ส่งใบสมัครแล้ว (รอแอดมินอนุมัติ & รอประกาศรายชื่อ)'}
             </div>
           </div>
           <div class="info-row">
@@ -310,7 +306,7 @@ function renderStudentPortalBanner() {
             <div class="info-label">การดำเนินการ :</div>
             <div class="info-val">
               <a href="javascript:void(0)" onclick="navigateTo('manage')" style="color:#471764; font-weight:700; text-decoration:underline;">
-                ดูรายละเอียดใบสมัคร / แก้ไขข้อมูล ➜
+                ดูรายละเอียดใบสมัคร / แก้ไขข้อมูล 
               </a>
             </div>
           </div>
@@ -342,7 +338,7 @@ function renderStudentPortalBanner() {
           </div>
           <div class="info-row">
             <div class="info-label">ขั้นตอนการสมัคร :</div>
-            <div class="info-val highlight">กรอกข้อมูลและสร้างรหัสผ่านในใบสมัคร ➜ รอแอดมินอนุมัติ ➜ ประกาศรายชื่อ</div>
+            <div class="info-val highlight">กรอกข้อมูลและสร้างรหัสผ่านในใบสมัคร  รอแอดมินอนุมัติ  ประกาศรายชื่อ</div>
           </div>
           <div class="info-row">
             <div class="info-label">เกณฑ์กิจกรรมหอพัก :</div>
@@ -365,24 +361,24 @@ function renderAnnouncementsBanner(settings, announcements) {
 
   container.innerHTML = `
     <div class="hero-left">
-      <div class="hero-tag">📢 ข่าวประชาสัมพันธ์หอพักล่าสุด</div>
+      <div class="hero-tag"> ข่าวประชาสัมพันธ์หอพักล่าสุด</div>
       <h2 class="hero-title">${topAnnounce.title}</h2>
       <p class="hero-desc">${topAnnounce.content}</p>
       <div class="hero-actions">
         ${settings.registration_open ? `
           <button class="btn btn-gold" onclick="navigateTo('register')">
-            ✍️ กรอกใบสมัครเข้าหอพักทันที
+            ️ กรอกใบสมัครเข้าหอพักทันที
           </button>
         ` : `
           <button class="btn btn-secondary" style="cursor:not-allowed;" title="ระบบปิดรับสมัคร">
-            🔒 ระบบปิดรับสมัคร
+             ระบบปิดรับสมัคร
           </button>
         `}
         <button class="btn btn-secondary" onclick="navigateTo('directory')">
-          👥 รายชื่อผู้สมัคร (รออนุมัติ)
+           รายชื่อผู้สมัคร (รออนุมัติ)
         </button>
         <button class="btn btn-primary" onclick="navigateTo('announcements')">
-          📢 ประกาศรายชื่อผู้มีสิทธิ์
+           ประกาศรายชื่อผู้มีสิทธิ์
         </button>
       </div>
     </div>
@@ -390,7 +386,7 @@ function renderAnnouncementsBanner(settings, announcements) {
       <div class="term">${settings.system_semester}</div>
       <div class="date-range">${settings.registration_start} - ${settings.registration_end}</div>
       <div style="font-size:0.8rem; color:#059669; font-weight:600; margin-top:6px;">
-        📢 กำหนดประกาศผล: ${settings.announcement_date}
+         กำหนดประกาศผล: ${settings.announcement_date}
       </div>
     </div>
   `;
@@ -403,21 +399,21 @@ function renderHomeStats(stats) {
   statsContainer.innerHTML = `
     <div class="form-row" style="margin-bottom: 24px;">
       <div style="background:#ffffff; padding:18px 20px; border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:flex; align-items:center; gap:14px;">
-        <div style="width:48px; height:48px; border-radius:10px; background:#eff6ff; color:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">🛏️</div>
+        <div style="width:48px; height:48px; border-radius:10px; background:#eff6ff; color:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">️</div>
         <div>
           <div style="font-size:0.82rem; color:#6b7280;">ความจุเตียงพักทั้งหมด</div>
           <div style="font-size:1.4rem; font-weight:700; color:#1e293b;">${stats.total_beds} <span style="font-size:0.9rem; font-weight:400; color:#9ca3af;">เตียง</span></div>
         </div>
       </div>
       <div style="background:#ffffff; padding:18px 20px; border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:flex; align-items:center; gap:14px;">
-        <div style="width:48px; height:48px; border-radius:10px; background:#ecfdf5; color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">✅</div>
+        <div style="width:48px; height:48px; border-radius:10px; background:#ecfdf5; color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.5rem;"></div>
         <div>
           <div style="font-size:0.82rem; color:#6b7280;">เตียงว่างคงเหลือ</div>
           <div style="font-size:1.4rem; font-weight:700; color:#059669;">${stats.available_beds} <span style="font-size:0.9rem; font-weight:400; color:#9ca3af;">เตียง</span></div>
         </div>
       </div>
       <div style="background:#ffffff; padding:18px 20px; border-radius:12px; border:1px solid #e5e7eb; box-shadow:0 1px 3px rgba(0,0,0,0.05); display:flex; align-items:center; gap:14px;">
-        <div style="width:48px; height:48px; border-radius:10px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👥</div>
+        <div style="width:48px; height:48px; border-radius:10px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:1.5rem;"></div>
         <div>
           <div style="font-size:0.82rem; color:#6b7280;">ผู้ยื่นสมัคร / จองแล้ว</div>
           <div style="font-size:1.4rem; font-weight:700; color:#d97706;">${stats.occupied_beds} <span style="font-size:0.9rem; font-weight:400; color:#9ca3af;">คน</span></div>
@@ -466,7 +462,7 @@ function renderDormitoriesGrid(dorms) {
             ฿${dorm.fee_per_term.toLocaleString()} <span>/ ภาคการศึกษา</span>
           </div>
           <button class="btn btn-sm btn-secondary" onclick="viewDormRoomsModal(${dorm.id})">
-            🔍 ดูผังห้องพัก
+             ดูผังห้องพัก
           </button>
         </div>
       </div>
@@ -489,7 +485,7 @@ async function loadRegisterView() {
   if (!status.registration_open) {
     container.innerHTML = `
       <div style="text-align: center; padding: 60px 20px; background: #ffffff; border-radius: 18px; border: 1px solid #e5e7eb; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 650px; margin: 40px auto;">
-        <div style="font-size: 3.5rem; margin-bottom: 16px;">🔒</div>
+        <div style="font-size: 3.5rem; margin-bottom: 16px;"></div>
         <h2 style="color: #471764; font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;">ระบบปิดรับสมัครเข้าหอพัก</h2>
         <p style="color: #6b7280; line-height: 1.6; margin-bottom: 24px;">${status.closed_message || 'ขณะนี้อยู่นอกช่วงเวลารับสมัคร หรือระบบอยู่ระหว่างประมวลผลข้อมูล'}</p>
         <button class="btn btn-primary" onclick="navigateTo('home')">กลับสู่หน้าหลัก</button>
@@ -510,11 +506,68 @@ function renderRegisterForm() {
   const container = document.getElementById('view-register');
   if (!container) return;
 
+  if (AppState.loggedInStudent && AppState.loggedInStudent.status === 'approved') {
+    const st = AppState.loggedInStudent;
+    container.innerHTML = `
+      <div style="max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 18px; border: 1px solid #e5e7eb; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+        <div style="background: linear-gradient(135deg, #164e63 0%, #047857 100%); color: #ffffff; padding: 28px; text-align: center;">
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 1.6rem; font-weight: 700;">
+            
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 6px;">คุณเป็นสมาชิกหอพักนักศึกษาแล้ว</h2>
+          <p style="font-size: 0.92rem; color: #a7f3d0;">ใบสมัครของคุณได้รับการตรวจสอบและอนุมัติเข้าพักในหอพักเรียบร้อยแล้ว</p>
+        </div>
+        <div style="padding: 32px 28px;">
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #471764; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px;">
+              ข้อมูลการเข้าพักที่ได้รับการอนุมัติ
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+              <div>
+                <span style="font-size: 0.8rem; color: #64748b;">ชื่อ - สกุล :</span>
+                <div style="font-weight: 600; color: #1e293b;">${st.prefix} ${st.first_name} ${st.last_name}</div>
+              </div>
+              <div>
+                <span style="font-size: 0.8rem; color: #64748b;">หอพัก :</span>
+                <div style="font-weight: 600; color: #059669;">${st.dormitory_name || '-'}</div>
+              </div>
+              <div>
+                <span style="font-size: 0.8rem; color: #64748b;">ห้องพัก / ชั้น :</span>
+                <div style="font-weight: 600; color: #059669;">ห้อง ${st.room_number || '-'} (ชั้น ${st.floor || '-'})</div>
+              </div>
+              <div>
+                <span style="font-size: 0.8rem; color: #64748b;">เตียงนอน :</span>
+                <div style="font-weight: 600; color: #059669;">เตียงที่ ${st.bed_number || '-'}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 28px; font-size: 0.9rem; color: #1e40af; line-height: 1.6;">
+            <strong>คำชี้แจง:</strong> ระบบสงวนสิทธิ์การสมัคร 1 บัญชีต่อ 1 สิทธิ์การเข้าพัก เพื่อป้องกันการจองห้องพักซ้ำซ้อน หากต้องการตรวจสอบข้อมูลส่วนตัว หรือส่งหลักฐานกิจกรรมหอพัก สามารถใช้เมนูทางด้านซ้ายได้ทันที
+          </div>
+
+          <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" onclick="navigateTo('resident')" style="min-width: 170px;">
+              ดูข้อมูลสมาชิกหอพัก
+            </button>
+            <button type="button" class="btn btn-gold" onclick="navigateTo('activities')" style="min-width: 180px;">
+              เช็คกิจกรรม & คะแนนหอ
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="navigateTo('home')" style="min-width: 130px;">
+              กลับหน้าหลัก
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   container.innerHTML = `
     <div style="max-width: 900px; margin: 0 auto;">
       <div style="background: linear-gradient(135deg, #381250 0%, #521a75 100%); color: #ffffff; padding: 24px 28px; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: space-between;">
         <div>
-          <h2 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 4px;">📝 แบบฟอร์มสมัครเข้าพักในหอพักนักศึกษา</h2>
+          <h2 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 4px;"> แบบฟอร์มสมัครเข้าพักในหอพักนักศึกษา</h2>
           <p style="font-size: 0.85rem; color: #e9d5ff;">กรอกข้อมูลให้ครบถ้วนและสร้างรหัสผ่านเพื่อใช้ติดตามผล (สถานะเริ่มต้น: รอการอนุมัติ)</p>
         </div>
         <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">
@@ -652,7 +705,7 @@ function renderRegisterForm() {
           </h3>
           <div class="form-group">
             <div class="file-upload-box" onclick="document.getElementById('reg-file-input').click()">
-              <div style="font-size: 2rem; margin-bottom: 6px;">📄</div>
+              <div style="font-size: 2rem; margin-bottom: 6px;"></div>
               <div style="font-weight: 600; color: #471764;">คลิกเพื่ออัปโหลดสำเนาบัตรประชาชน (รูปถ่ายหรือ PDF)</div>
               <div class="form-hint">รองรับไฟล์ JPG, PNG หรือ PDF ขนาดไม่เกิน 10MB</div>
               <input type="file" id="reg-file-input" accept="image/*,application/pdf" style="display: none;" onchange="previewUploadFile(this)">
@@ -679,7 +732,7 @@ function renderRegisterForm() {
 
           <div id="reg-room-selector-mount" style="margin-top: 18px;">
             <div style="background: #f8fafc; border: 1px dashed #cbd5e1; padding: 30px; text-align: center; border-radius: 12px; color: #6b7280;">
-              👉 กรุณาเลือกหอพักด้านบนเพื่อเปิดผังห้องพักและเลือกเตียงนอน
+               กรุณาเลือกหอพักด้านบนเพื่อเปิดผังห้องพักและเลือกเตียงนอน
             </div>
           </div>
 
@@ -688,7 +741,7 @@ function renderRegisterForm() {
               <div style="font-size: 0.8rem; color: #92400e; font-weight: 700; text-transform: uppercase;">ห้องพักและเตียงที่คุณเลือก :</div>
               <div id="selected-room-text" style="font-size: 1.15rem; font-weight: 700; color: #471764; margin-top: 2px;">-</div>
             </div>
-            <div style="font-size: 1.5rem;">🛌</div>
+            <div style="font-size: 1.5rem;"></div>
           </div>
         </div>
 
@@ -696,7 +749,7 @@ function renderRegisterForm() {
         <div style="display: flex; gap: 16px; justify-content: flex-end; border-top: 1px solid #e5e7eb; padding-top: 24px;">
           <button type="button" class="btn btn-secondary" onclick="navigateTo('home')">ยกเลิก</button>
           <button type="submit" id="reg-submit-btn" class="btn btn-gold" style="min-width: 240px; font-size: 1rem;">
-            ✓ ส่งใบสมัคร (สถานะ: รออนุมัติ)
+             ส่งใบสมัคร (สถานะ: รออนุมัติ)
           </button>
         </div>
 
@@ -774,7 +827,7 @@ async function previewUploadFile(input) {
       previewImg.style.display = 'none';
     }
 
-    previewName.textContent = `📎 แนบไฟล์สำเร็จ: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    previewName.textContent = ` แนบไฟล์สำเร็จ: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
     previewWrapper.style.display = 'block';
   } catch (err) {
     showToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
@@ -840,7 +893,7 @@ async function handleRegistrationSubmit(event) {
     showToast('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์', 'error');
   } finally {
     btn.disabled = false;
-    btn.textContent = '✓ ส่งใบสมัคร (สถานะ: รออนุมัติ)';
+    btn.textContent = ' ส่งใบสมัคร (สถานะ: รออนุมัติ)';
   }
 }
 
@@ -873,7 +926,7 @@ function renderStudentLoginForm() {
   container.innerHTML = `
     <div style="max-width: 500px; margin: 40px auto; background: #ffffff; border-radius: 18px; border: 1px solid #e5e7eb; box-shadow: var(--shadow-md); overflow: hidden;">
       <div style="background: linear-gradient(135deg, #381250 0%, #521a75 100%); color: #ffffff; padding: 22px 24px; text-align: center;">
-        <div style="font-size: 2.2rem; margin-bottom: 6px;">🔍</div>
+        <div style="font-size: 2.2rem; margin-bottom: 6px;"></div>
         <h3 style="font-size: 1.25rem; font-weight: 700;">ติดตามสถานะและตรวจสอบใบสมัคร</h3>
         <p style="font-size: 0.85rem; color: #d8b4fe; margin-top: 4px;">เข้าสู่ระบบด้วยเลขบัตรประชาชน 13 หลักและรหัสผ่านที่คุณสร้างไว้</p>
       </div>
@@ -888,7 +941,7 @@ function renderStudentLoginForm() {
           <input type="password" id="login-password" class="form-input" placeholder="รหัสผ่านที่กำหนดตอนสมัคร" required>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">
-          🔑 เข้าสู่ระบบตรวจสอบข้อมูล
+           เข้าสู่ระบบตรวจสอบข้อมูล
         </button>
         <div style="text-align: center; margin-top: 16px; font-size: 0.85rem; color: #6b7280;">
           ยังไม่ได้ส่งใบสมัคร? <a href="javascript:void(0)" onclick="navigateTo('register')" style="color: #471764; font-weight: 700;">สมัครเข้าหอในที่นี่</a>
@@ -942,16 +995,16 @@ function renderStudentManageDashboard(st) {
     <div style="max-width: 900px; margin: 0 auto;">
       
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
-        <h2 style="font-size:1.3rem; font-weight:700; color:#471764;">📋 ข้อมูลใบสมัครและการจองห้องพักของคุณ</h2>
+        <h2 style="font-size:1.3rem; font-weight:700; color:#471764;"> ข้อมูลใบสมัครและการจองห้องพักของคุณ</h2>
         <div style="display:flex; gap:10px;">
           <button class="btn btn-secondary btn-sm" onclick="printApplicationSlip()">
-            🖨️ พิมพ์ใบสมัคร
+            ️ พิมพ์ใบสมัคร
           </button>
           <button class="btn btn-primary btn-sm" onclick="openEditApplicationModal()">
-            ✏️ แก้ไขข้อมูล / ย้ายห้อง
+            ️ แก้ไขข้อมูล / ย้ายห้อง
           </button>
           <button class="btn btn-danger btn-sm" onclick="confirmCancelApplication()">
-            🗑️ ยกเลิกการสมัคร
+            ️ ยกเลิกการสมัคร
           </button>
         </div>
       </div>
@@ -960,7 +1013,7 @@ function renderStudentManageDashboard(st) {
         <div class="profile-banner-header" style="background: ${isApproved ? 'linear-gradient(90deg, #164e63 0%, #047857 100%)' : 'linear-gradient(90deg, #381250 0%, #521a75 100%)'};">
           <div class="profile-banner-header-left">
             <span class="profile-status-indicator" style="background: ${isApproved ? '#10b981' : '#f59e0b'};"></span>
-            <span>สถานะใบสมัคร : ${isApproved ? '✅ ได้รับการอนุมัติแล้ว (เป็นสมาชิกหอพัก)' : '⏳ รอการตรวจสอบและอนุมัติจากผู้ดูแลระบบ'}</span>
+            <span>สถานะใบสมัคร : ${isApproved ? ' ได้รับการอนุมัติแล้ว (เป็นสมาชิกหอพัก)' : '⏳ รอการตรวจสอบและอนุมัติจากผู้ดูแลระบบ'}</span>
           </div>
           <span>ยื่นสมัครเมื่อ: ${st.applied_at || '-'}</span>
         </div>
@@ -996,7 +1049,7 @@ function renderStudentManageDashboard(st) {
           <div class="info-row">
             <div class="info-label">เอกสารสำเนาบัตร :</div>
             <div class="info-val">
-              ${st.id_card_file ? `<a href="${st.id_card_file}" target="_blank" style="color:#3b82f6; text-decoration:underline;">📄 ดูเอกสารที่แนบไว้</a>` : '<span style="color:#ef4444;">ยังไม่ได้แนบ</span>'}
+              ${st.id_card_file ? `<a href="${st.id_card_file}" target="_blank" style="color:#3b82f6; text-decoration:underline;"> ดูเอกสารที่แนบไว้</a>` : '<span style="color:#ef4444;">ยังไม่ได้แนบ</span>'}
             </div>
           </div>
         </div>
@@ -1004,7 +1057,7 @@ function renderStudentManageDashboard(st) {
 
       ${isApproved ? `
         <div style="background:#ecfdf5; border:1px solid #10b981; border-radius:14px; padding:18px 24px; margin-bottom:20px; color:#065f46;">
-          <h4 style="font-weight:700; font-size:1rem; margin-bottom:4px;">🎉 ยินดีด้วย! ใบสมัครของคุณได้รับการอนุมัติเรียบร้อยแล้ว</h4>
+          <h4 style="font-weight:700; font-size:1rem; margin-bottom:4px;"> ยินดีด้วย! ใบสมัครของคุณได้รับการอนุมัติเรียบร้อยแล้ว</h4>
           <p style="font-size:0.85rem;">ท่านสามารถใช้งานระบบเช็คกิจกรรมและสะสมคะแนน 80 แต้มได้ที่เมนู "เช็คกิจกรรม & คะแนนหอ"</p>
         </div>
       ` : `
@@ -1029,7 +1082,7 @@ async function openEditApplicationModal() {
   const modalTitle = document.getElementById('generic-modal-title');
   const modalBody = document.getElementById('generic-modal-body');
 
-  modalTitle.textContent = '✏️ แก้ไขข้อมูลการสมัคร / เปลี่ยนห้องพัก';
+  modalTitle.textContent = '️ แก้ไขข้อมูลการสมัคร / เปลี่ยนห้องพัก';
   modalBody.innerHTML = `
     <form id="edit-app-form" onsubmit="handleEditApplicationSubmit(event)">
       <div class="form-row">
@@ -1074,7 +1127,7 @@ async function openEditApplicationModal() {
       </div>
 
       <div style="margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 16px;">
-        <h4 style="font-size: 1rem; font-weight: 700; color: #471764; margin-bottom: 12px;">🏢 เปลี่ยนห้องพัก / หอพัก (เพศ ${st.gender === 'male' ? 'ชาย' : 'หญิง'})</h4>
+        <h4 style="font-size: 1rem; font-weight: 700; color: #471764; margin-bottom: 12px;"> เปลี่ยนห้องพัก / หอพัก (เพศ ${st.gender === 'male' ? 'ชาย' : 'หญิง'})</h4>
         
         <div class="form-group">
           <label class="form-label">เลือกหอพัก</label>
@@ -1088,7 +1141,7 @@ async function openEditApplicationModal() {
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:24px;">
         <button type="button" class="btn btn-secondary" onclick="closeGenericModal()">ยกเลิก</button>
-        <button type="submit" class="btn btn-gold">💾 บันทึกการเปลี่ยนแปลง</button>
+        <button type="submit" class="btn btn-gold"> บันทึกการเปลี่ยนแปลง</button>
       </div>
     </form>
   `;
@@ -1163,7 +1216,7 @@ async function confirmCancelApplication() {
   const st = AppState.loggedInStudent;
   if (!st) return;
 
-  if (!confirm(`⚠️ คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการสมัครเข้าหอพัก?\n\nสิทธิ์การจองห้องพัก ${st.dormitory_name} ห้อง ${st.room_number} เตียง ${st.bed_number} จะถูกคืนให้ระบบทันที`)) {
+  if (!confirm(`️ คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการสมัครเข้าหอพัก?\n\nสิทธิ์การจองห้องพัก ${st.dormitory_name} ห้อง ${st.room_number} เตียง ${st.bed_number} จะถูกคืนให้ระบบทันที`)) {
     return;
   }
 
@@ -1246,7 +1299,7 @@ async function loadDirectoryData() {
     <div style="max-width: 1000px; margin: 0 auto;">
       <div class="section-heading">
         <div>
-          <h2 class="section-title">👥 รายชื่อผู้สมัครเข้าหอพัก (กำลังรอการอนุมัติ)</h2>
+          <h2 class="section-title"> รายชื่อผู้สมัครเข้าหอพัก (กำลังรอการอนุมัติ)</h2>
           <p style="font-size:0.85rem; color:#6b7280; margin-top:2px;">
             แสดงเฉพาะรายชื่อผู้ที่กำลังยื่นสมัครเข้าหอในในรอบปัจจุบัน (เมื่อถึงวันประกาศรายชื่อ ข้อมูลจะถูกย้ายไปที่เมนูประกาศรายชื่อ)
           </p>
@@ -1264,7 +1317,7 @@ async function loadDirectoryData() {
               <option value="4">หอพักหญิงดาวเรือง</option>
               <option value="5">หอพักหญิงเฟื่องฟ้า</option>
             </select>
-            <input type="text" id="dir-search-input" class="form-input" style="width:240px;" placeholder="🔍 ค้นหาชื่อ หรือ ห้อง..." oninput="filterDirectoryList()">
+            <input type="text" id="dir-search-input" class="form-input" style="width:240px;" placeholder=" ค้นหาชื่อ หรือ ห้อง..." oninput="filterDirectoryList()">
           </div>
           <div id="dir-count-tag" style="font-size:0.88rem; color:#6b7280; font-weight:600;">
             กำลังโหลดข้อมูล...
@@ -1310,10 +1363,10 @@ async function filterDirectoryList() {
       tbody.innerHTML = `
         <tr>
           <td colspan="7" style="text-align:center; padding:45px; color:#471764;">
-            <div style="font-size: 2rem; margin-bottom:8px;">📢</div>
+            <div style="font-size: 2rem; margin-bottom:8px;"></div>
             <div style="font-size:1.05rem; font-weight:700;">การรับสมัครรอบนี้ได้ประกาศผลรายชื่อเรียบร้อยแล้ว</div>
             <div style="color:#6b7280; font-size:0.85rem; margin-top:4px;">รายชื่อผู้ผ่านการคัดเลือกได้ถูกย้ายไปที่เมนู "ประกาศรายชื่อผู้มีสิทธิ์" แล้ว เพื่อรอรับรายชื่อผู้สมัครในรอบถัดไป</div>
-            <button class="btn btn-primary btn-sm" style="margin-top:14px;" onclick="navigateTo('announcements')">ไปที่หน้าประกาศรายชื่อ ➜</button>
+            <button class="btn btn-primary btn-sm" style="margin-top:14px;" onclick="navigateTo('announcements')">ไปที่หน้าประกาศรายชื่อ </button>
           </td>
         </tr>
       `;
@@ -1356,7 +1409,7 @@ async function loadAnnouncementsData() {
     <div style="max-width: 1000px; margin: 0 auto;">
       <div style="background:linear-gradient(135deg, #1b0729 0%, #3b1252 100%); color:#ffffff; padding:28px 32px; border-radius:18px; margin-bottom:24px; box-shadow:var(--shadow-md);">
         <div style="font-size:0.85rem; color:#e5a93b; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">ประกาศผลอย่างเป็นทางการ</div>
-        <h2 style="font-size:1.45rem; font-weight:700; line-height:1.3;">📢 ประกาศรายชื่อผู้มีสิทธิ์เข้าพักในหอพักนักศึกษา มรภ.สุรินทร์</h2>
+        <h2 style="font-size:1.45rem; font-weight:700; line-height:1.3;"> ประกาศรายชื่อผู้มีสิทธิ์เข้าพักในหอพักนักศึกษา มรภ.สุรินทร์</h2>
         <p style="font-size:0.9rem; color:#e2d4ec; margin-top:6px;">ประจำภาคการศึกษาที่ 1/2569 (แสดงเฉพาะผู้ที่ผ่านการอนุมัติแล้ว)</p>
       </div>
 
@@ -1371,10 +1424,10 @@ async function loadAnnouncementsData() {
               <option value="4">หอพักหญิงดาวเรือง</option>
               <option value="5">หอพักหญิงเฟื่องฟ้า</option>
             </select>
-            <input type="text" id="announce-search-input" class="form-input" style="width:240px;" placeholder="🔍 ค้นหาชื่อ-นามสกุล..." oninput="filterAnnounceList()">
+            <input type="text" id="announce-search-input" class="form-input" style="width:240px;" placeholder=" ค้นหาชื่อ-นามสกุล..." oninput="filterAnnounceList()">
           </div>
           <button class="btn btn-secondary btn-sm" onclick="window.print()">
-            🖨️ พิมพ์ประกาศ
+            ️ พิมพ์ประกาศ
           </button>
         </div>
 
@@ -1415,7 +1468,7 @@ async function filterAnnounceList() {
       tbody.innerHTML = `
         <tr>
           <td colspan="7" style="text-align:center; padding:50px; color:#d97706;">
-            <div style="font-size:2.2rem; margin-bottom:8px;">🔒</div>
+            <div style="font-size:2.2rem; margin-bottom:8px;"></div>
             <div style="font-size:1.1rem; font-weight:700;">${res.message}</div>
             <div style="font-size:0.85rem; color:#6b7280; margin-top:4px;">รายชื่อผู้ผ่านการอนุมัติจะเปิดเผยในหน้านี้ตามกำหนดการประกาศผล</div>
           </td>
@@ -1433,7 +1486,7 @@ async function filterAnnounceList() {
           <td><span style="font-weight:600; color:#471764;">${a.dormitory_name}</span></td>
           <td><span style="font-weight:700;">ห้อง ${a.room_number}</span> (ชั้น ${a.floor})</td>
           <td>เตียง ${a.bed_number}</td>
-          <td><span class="status-badge approved">✓ ผ่านการคัดเลือก</span></td>
+          <td><span class="status-badge approved"> ผ่านการคัดเลือก</span></td>
         </tr>
       `).join('');
     } else {
@@ -1464,17 +1517,17 @@ async function loadResidentProfileView() {
   if (!AppState.loggedInStudent) {
     container.innerHTML = `
       <div style="max-width: 600px; margin: 40px auto; background:#ffffff; border-radius:18px; border:1px solid #e5e7eb; padding:36px; text-align:center; box-shadow:var(--shadow-md);">
-        <div style="font-size:3rem; margin-bottom:10px;">👤</div>
+        <div style="font-size:3rem; margin-bottom:10px;"></div>
         <h3 style="font-size:1.3rem; font-weight:700; color:#471764; margin-bottom:8px;">เข้าสู่ระบบสมาชิกหอพัก</h3>
         <p style="font-size:0.88rem; color:#6b7280; margin-bottom:20px;">
           หน้านี้สำหรับนักศึกษาที่ได้รับการอนุมัติเข้าพักในหอพักแล้ว หรือผู้ดูแลระบบเพื่อตรวจสอบรายชื่อสมาชิก
         </p>
         <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
           <button class="btn btn-primary" onclick="openLoginModal()">
-            🔑 เข้าสู่ระบบนักศึกษา
+             เข้าสู่ระบบนักศึกษา
           </button>
           <button class="btn btn-secondary" onclick="openAdminLoginModal()">
-            👑 เข้าสู่ระบบผู้ดูแลระบบ (Admin)
+             เข้าสู่ระบบผู้ดูแลระบบ (Admin)
           </button>
         </div>
       </div>
@@ -1493,7 +1546,7 @@ async function loadResidentProfileView() {
           ใบสมัครของคุณ <strong>(${st.prefix} ${st.first_name} ${st.last_name})</strong> อยู่ระหว่างรอการตรวจสอบและอนุมัติจากผู้ดูแลระบบ จึงยังไม่สามารถเข้าถึงหน้าข้อมูลสมาชิกหอพักได้จนกว่าจะได้รับการอนุมัติอย่างเป็นทางการ
         </p>
         <button class="btn btn-primary" onclick="navigateTo('manage')">
-          📋 ไปที่หน้าติดตามสถานะใบสมัคร
+           ไปที่หน้าติดตามสถานะใบสมัคร
         </button>
       </div>
     `;
@@ -1504,11 +1557,11 @@ async function loadResidentProfileView() {
     <div style="max-width: 900px; margin: 0 auto;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
         <div>
-          <h2 style="font-size:1.35rem; font-weight:700; color:#471764;">👤 ข้อมูลสมาชิกหอพักของฉัน</h2>
+          <h2 style="font-size:1.35rem; font-weight:700; color:#471764;"> ข้อมูลสมาชิกหอพักของฉัน</h2>
           <p style="font-size:0.85rem; color:#6b7280;">ท่านสามารถตรวจสอบและแก้ไขข้อมูลส่วนตัวเพื่อการติดต่อของหอพักได้</p>
         </div>
         <button class="btn btn-primary btn-sm" onclick="openEditApplicationModal()">
-          ✏️ แก้ไขข้อมูลส่วนตัว
+          ️ แก้ไขข้อมูลส่วนตัว
         </button>
       </div>
 
@@ -1553,7 +1606,7 @@ async function loadResidentProfileView() {
             <div class="info-label">กิจกรรมหอพัก :</div>
             <div class="info-val">
               <a href="javascript:void(0)" onclick="navigateTo('activities')" style="color:#059669; font-weight:700; text-decoration:underline;">
-                เช็คกิจกรรมและสะสมคะแนน (เต็ม 100 แต้ม) ➜
+                เช็คกิจกรรมและสะสมคะแนน (เต็ม 100 แต้ม) 
               </a>
             </div>
           </div>
@@ -1572,11 +1625,11 @@ async function renderAdminDormResidentsInspector(dormId = 1, floorFilter = 'all'
   if (!container) return;
 
   const dormList = [
-    { id: 1, name: 'หอพักชายผกากรอง', gender: 'male', icon: '👦', desc: 'หอพักนักศึกษาชาย (ชั้น A, B)' },
-    { id: 2, name: 'หอพักหญิงแสงจันทร์', gender: 'female', icon: '👧', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' },
-    { id: 3, name: 'หอพักหญิงบานชื่น', gender: 'female', icon: '👧', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' },
-    { id: 4, name: 'หอพักหญิงดาวเรือง', gender: 'female', icon: '👧', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' },
-    { id: 5, name: 'หอพักหญิงเฟื่องฟ้า', gender: 'female', icon: '👧', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' }
+    { id: 1, name: 'หอพักชายผกากรอง', gender: 'male', icon: '', desc: 'หอพักนักศึกษาชาย (ชั้น A, B)' },
+    { id: 2, name: 'หอพักหญิงแสงจันทร์', gender: 'female', icon: '', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' },
+    { id: 3, name: 'หอพักหญิงบานชื่น', gender: 'female', icon: '', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' },
+    { id: 4, name: 'หอพักหญิงดาวเรือง', gender: 'female', icon: '', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' },
+    { id: 5, name: 'หอพักหญิงเฟื่องฟ้า', gender: 'female', icon: '', desc: 'หอพักนักศึกษาหญิง (ชั้น A, B)' }
   ];
 
   const res = await API.getAdminDormResidents(dormId);
@@ -1610,17 +1663,17 @@ async function renderAdminDormResidentsInspector(dormId = 1, floorFilter = 'all'
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
           <div>
             <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(229,169,59,0.25); color:#e5a93b; padding:4px 12px; border-radius:20px; font-size:0.82rem; font-weight:700; margin-bottom:8px;">
-              👑 ผู้ดูแลระบบ (Admin Mode)
+               ผู้ดูแลระบบ (Admin Mode)
             </div>
-            <h2 style="font-size:1.45rem; font-weight:700; margin-bottom:4px;">🏢 ตรวจสอบรายชื่อสมาชิกและผังห้องพักรายหอ</h2>
+            <h2 style="font-size:1.45rem; font-weight:700; margin-bottom:4px;"> ตรวจสอบรายชื่อสมาชิกและผังห้องพักรายหอ</h2>
             <p style="font-size:0.88rem; color:#d1b8e8;">เลือกหอพักเพื่อตรวจสอบข้อมูลสมาชิกแต่ละห้อง เตียง และคะแนนกิจกรรมของทุกคน</p>
           </div>
           <div style="display:flex; gap:10px;">
             <button class="btn btn-gold btn-sm" onclick="navigateTo('admin')">
-              ⚙️ ไปที่ศูนย์ควบคุมแอดมิน
+              ️ ไปที่ศูนย์ควบคุมแอดมิน
             </button>
             <button class="btn btn-secondary btn-sm" onclick="window.print()" style="background:rgba(255,255,255,0.15); color:#fff; border:none;">
-              🖨️ พิมพ์ผังหอพัก
+              ️ พิมพ์ผังหอพัก
             </button>
           </div>
         </div>
@@ -1669,7 +1722,7 @@ async function renderAdminDormResidentsInspector(dormId = 1, floorFilter = 'all'
             <div style="background:#ffffff; border-radius:16px; border:1px solid #e5e7eb; box-shadow:var(--shadow-sm); overflow:hidden;">
               <div style="background:${isFull ? '#f3ebf9' : '#f8fafc'}; padding:12px 18px; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center;">
                 <div style="font-weight:700; color:#471764; font-size:1.05rem;">
-                  🚪 ห้อง ${rm.room_number} <span style="font-size:0.8rem; font-weight:500; color:#6b7280;">(ชั้น ${rm.floor})</span>
+                   ห้อง ${rm.room_number} <span style="font-size:0.8rem; font-weight:500; color:#6b7280;">(ชั้น ${rm.floor})</span>
                 </div>
                 <span class="status-badge ${isFull ? 'approved' : 'pending'}" style="font-size:0.75rem;">
                   ${occList.length} / ${rm.max_capacity} คน
@@ -1704,7 +1757,7 @@ async function renderAdminDormResidentsInspector(dormId = 1, floorFilter = 'all'
                   } else {
                     return `
                       <div style="background:#ffffff; border:1px dashed #cbd5e1; border-radius:10px; padding:8px 12px; color:#94a3b8; font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span>🛏️ เตียง ${bedNum}</span>
+                        <span>️ เตียง ${bedNum}</span>
                         <span>ว่าง</span>
                       </div>
                     `;
@@ -1743,7 +1796,7 @@ async function loadActivitiesView() {
             สถานะใบสมัครของคุณในปัจจุบัน: <span style="background:#fef3c7; color:#b45309; padding:3px 10px; border-radius:10px; font-weight:700;">อยู่ระหว่างรอการอนุมัติ</span>
           </p>
           <button class="btn btn-primary" onclick="navigateTo('manage')">
-            📋 ตรวจสอบสถานะใบสมัคร
+             ตรวจสอบสถานะใบสมัคร
           </button>
         </div>
       `;
@@ -1763,18 +1816,18 @@ function renderActivityPublicView() {
   container.innerHTML = `
     <div style="max-width: 900px; margin: 0 auto;">
       <div style="background: #ffffff; border-radius: 18px; border: 1px solid #e5e7eb; padding: 32px; box-shadow: var(--shadow-sm); text-align: center; margin-bottom: 28px;">
-        <div style="font-size: 3rem; margin-bottom: 8px;">🏆</div>
+        <div style="font-size: 3rem; margin-bottom: 8px;"></div>
         <h2 style="font-size: 1.4rem; font-weight: 700; color: #471764;">ระบบเช็คกิจกรรมและสะสมคะแนนหอพักนักศึกษา</h2>
         <p style="color: #6b7280; max-width: 600px; margin: 8px auto 20px auto; font-size: 0.92rem;">
           คะแนนกิจกรรมรวมทั้งหมด <strong>100 คะแนนเต็ม</strong> (เกณฑ์ผ่านขั้นต่ำ <strong>80 คะแนน</strong> ต่อภาคการศึกษา)
         </p>
         <button class="btn btn-gold" onclick="openLoginModal()">
-          🔑 เข้าสู่ระบบสมาชิกหอพักเพื่อเช็คกิจกรรม
+           เข้าสู่ระบบสมาชิกหอพักเพื่อเช็คกิจกรรม
         </button>
       </div>
 
       <div class="section-heading">
-        <h3 class="section-title">📅 รายการกิจกรรมหอพัก ประจำภาคเรียนที่ 1/2569</h3>
+        <h3 class="section-title"> รายการกิจกรรมหอพัก ประจำภาคเรียนที่ 1/2569</h3>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
@@ -1789,7 +1842,7 @@ function renderActivityPublicView() {
             <h4 style="font-size: 1.05rem; font-weight: 700; color: #1e293b; margin-bottom: 6px;">${act.title}</h4>
             <p style="font-size: 0.85rem; color: #6b7280; margin-bottom: 12px; line-height: 1.5;">${act.description}</p>
             <div style="font-size: 0.78rem; color: #4b5563;">
-              🗓️ วันที่จัด: ${act.event_date || '-'}<br>
+              ️ วันที่จัด: ${act.event_date || '-'}<br>
               ⏰ กำหนดส่ง: ${act.deadline || '-'}
             </div>
           </div>
@@ -1822,7 +1875,7 @@ async function renderStudentActivityDashboard(st) {
           
           <!-- Gauge Meter Card (Out of 100 points, 80 pass threshold) -->
           <div class="points-gauge-card" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-            <h3 style="font-size: 1.2rem; font-weight: 700; color: #471764;">📊 กราฟคะแนนกิจกรรมรวม</h3>
+            <h3 style="font-size: 1.2rem; font-weight: 700; color: #471764;"> กราฟคะแนนกิจกรรมรวม</h3>
             <p style="font-size: 0.82rem; color: #6b7280; margin-bottom: 12px;">คะแนนเต็ม 100 คะแนน (เกณฑ์ผ่าน 80 คะแนน)</p>
 
             <div class="gauge-canvas-container">
@@ -1834,14 +1887,14 @@ async function renderStudentActivityDashboard(st) {
             </div>
 
             <div class="pass-status-badge ${summary.is_passed ? 'passed' : 'failed'}" style="margin-top: 14px; width: 100%; max-width: 300px;">
-              ${summary.is_passed ? '🎉 ผ่านเกณฑ์กิจกรรมหอพักแล้ว (≥ 80 แต้ม)' : `⚠️ ยังขาดอีก ${summary.points_needed} คะแนน เพื่อผ่านเกณฑ์`}
+              ${summary.is_passed ? ' ผ่านเกณฑ์กิจกรรมหอพักแล้ว (≥ 80 แต้ม)' : `️ ยังขาดอีก ${summary.points_needed} คะแนน เพื่อผ่านเกณฑ์`}
             </div>
           </div>
 
           <!-- Submit Activity Form -->
           <div style="background: #ffffff; border-radius: 18px; border: 1px solid #e5e7eb; padding: 24px; box-shadow: var(--shadow-sm);">
             <h3 style="font-size: 1.15rem; font-weight: 700; color: #471764; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-              <span>📸 เช็คกิจกรรมและส่งรูปถ่ายหลักฐาน</span>
+              <span> เช็คกิจกรรมและส่งรูปถ่ายหลักฐาน</span>
             </h3>
 
             <form onsubmit="handleActivityProofSubmit(event)">
@@ -1856,7 +1909,7 @@ async function renderStudentActivityDashboard(st) {
               <div class="form-group">
                 <label class="form-label required">แนบรูปภาพภายในกิจกรรม</label>
                 <div class="file-upload-box" onclick="document.getElementById('act-photo-input').click()">
-                  <div style="font-size: 1.8rem; margin-bottom: 4px;">📷</div>
+                  <div style="font-size: 1.8rem; margin-bottom: 4px;"></div>
                   <div style="font-weight: 600; color: #471764;">คลิกเพื่ออัปโหลดรูปถ่ายขณะเข้าร่วมกิจกรรม</div>
                   <div class="form-hint">เช่น รูปถ่ายตัวคุณร่วมกับกิจกรรมในหอพัก</div>
                   <input type="file" id="act-photo-input" accept="image/*" style="display: none;" onchange="previewActPhoto(this)">
@@ -1872,7 +1925,7 @@ async function renderStudentActivityDashboard(st) {
               </div>
 
               <button type="submit" id="act-submit-btn" class="btn btn-gold btn-block">
-                ✓ ส่งหลักฐานเช็คกิจกรรม
+                 ส่งหลักฐานเช็คกิจกรรม
               </button>
             </form>
           </div>
@@ -1883,7 +1936,7 @@ async function renderStudentActivityDashboard(st) {
         <div class="data-table-card">
           <div class="data-table-header">
             <div>
-              <h4 style="font-size: 1.1rem; font-weight: 700; color: #471764;">📜 ประวัติการส่งกิจกรรมของคุณ</h4>
+              <h4 style="font-size: 1.1rem; font-weight: 700; color: #471764;"> ประวัติการส่งกิจกรรมของคุณ</h4>
               <p style="font-size:0.8rem; color:#6b7280; margin-top:2px;">
                 รายการที่ยังรอการตรวจสอบสามารถกดแก้ไขหรือเปลี่ยนรูปได้ (หากผู้ดูแลระบบตรวจสอบแล้วจะไม่สามารถแก้ไขได้)
               </p>
@@ -1909,13 +1962,13 @@ async function renderStudentActivityDashboard(st) {
                   <tr>
                     <td>
                       <div style="font-weight: 700; color: #1e293b; font-size:0.92rem;">${s.activity_title}</div>
-                      <div style="font-size: 0.78rem; color: #6b7280; margin-top:2px;">🗓️ ส่งเมื่อ: ${s.submitted_at || '-'}</div>
-                      ${s.student_notes ? `<div style="font-size:0.75rem; color:#4b5563; margin-top:3px; background:#f8fafc; padding:3px 6px; border-radius:4px;">💬 ${s.student_notes}</div>` : ''}
-                      ${s.proof_image ? `<div style="margin-top:4px;"><a href="${s.proof_image}" target="_blank" style="font-size:0.75rem; color:#3b82f6; text-decoration:underline;">📷 ดูรูปถ่ายที่แนบ</a></div>` : ''}
+                      <div style="font-size: 0.78rem; color: #6b7280; margin-top:2px;">️ ส่งเมื่อ: ${s.submitted_at || '-'}</div>
+                      ${s.student_notes ? `<div style="font-size:0.75rem; color:#4b5563; margin-top:3px; background:#f8fafc; padding:3px 6px; border-radius:4px;"> ${s.student_notes}</div>` : ''}
+                      ${s.proof_image ? `<div style="margin-top:4px;"><a href="${s.proof_image}" target="_blank" style="font-size:0.75rem; color:#3b82f6; text-decoration:underline;"> ดูรูปถ่ายที่แนบ</a></div>` : ''}
                     </td>
                     <td>
                       <span class="status-badge ${s.status}">
-                        ${s.status === 'approved' ? '✓ อนุมัติแล้ว' : (s.status === 'pending' ? '⏳ รอตรวจ' : '✕ ไม่อนุมัติ')}
+                        ${s.status === 'approved' ? ' อนุมัติแล้ว' : (s.status === 'pending' ? '⏳ รอตรวจ' : ' ไม่อนุมัติ')}
                       </span>
                     </td>
                     <td>
@@ -1925,22 +1978,22 @@ async function renderStudentActivityDashboard(st) {
                       <span style="font-size: 0.75rem; color: #9ca3af;">แต้ม</span>
                     </td>
                     <td style="font-size: 0.82rem; color: #4b5563;">
-                      ${s.admin_comment ? `<div style="color:#047857;">💬 ${s.admin_comment}</div>` : '<span style="color:#9ca3af;">-</span>'}
+                      ${s.admin_comment ? `<div style="color:#047857;"> ${s.admin_comment}</div>` : '<span style="color:#9ca3af;">-</span>'}
                       ${s.checked_at ? `<div style="font-size:0.72rem; color:#9ca3af; margin-top:2px;">ตรวจเมื่อ: ${s.checked_at}</div>` : ''}
                     </td>
                     <td style="text-align: center;">
                       ${s.status === 'pending' ? `
                         <div style="display:flex; gap:6px; justify-content:center;">
                           <button class="btn btn-secondary btn-sm" onclick="openEditSubmissionModal(${s.id}, ${s.activity_id}, '${(s.student_notes || '').replace(/'/g, "\\'")}', '${s.proof_image || ''}')" title="แก้ไขข้อมูล/ส่งรูปใหม่">
-                            ✏️ แก้ไข
+                            ️ แก้ไข
                           </button>
                           <button class="btn btn-danger btn-sm" onclick="deleteMySubmission(${s.id})" title="ลบรายการส่งนี้">
-                            🗑️
+                            ️
                           </button>
                         </div>
                       ` : `
                         <span style="font-size:0.72rem; color:#64748b; background:#f1f5f9; padding:4px 8px; border-radius:6px; font-weight:600; display:inline-block;">
-                          🔒 ตรวจสอบแล้ว<br>(ไม่สามารถแก้ไขได้)
+                           ตรวจสอบแล้ว<br>(ไม่สามารถแก้ไขได้)
                         </span>
                       `}
                     </td>
@@ -1973,7 +2026,7 @@ function openEditSubmissionModal(subId, actId, notes, photoUrl) {
 
   editSubmissionPhotoBase64 = photoUrl || null;
 
-  title.textContent = '✏️ แก้ไขข้อมูลการส่งกิจกรรม / แนบรูปใหม่';
+  title.textContent = '️ แก้ไขข้อมูลการส่งกิจกรรม / แนบรูปใหม่';
   body.innerHTML = `
     <form onsubmit="handleEditSubmissionSubmit(event, ${subId})">
       <div class="form-group">
@@ -1986,7 +2039,7 @@ function openEditSubmissionModal(subId, actId, notes, photoUrl) {
       <div class="form-group">
         <label class="form-label">รูปภาพหลักฐานใหม่ (หากต้องการเปลี่ยน)</label>
         <div class="file-upload-box" onclick="document.getElementById('edit-act-photo-input').click()">
-          <div style="font-size: 1.8rem; margin-bottom: 4px;">📷</div>
+          <div style="font-size: 1.8rem; margin-bottom: 4px;"></div>
           <div style="font-weight: 600; color: #471764;">คลิกเพื่ออัปโหลดรูปถ่ายใหม่</div>
           <input type="file" id="edit-act-photo-input" accept="image/*" style="display: none;" onchange="previewEditActPhoto(this)">
         </div>
@@ -2002,7 +2055,7 @@ function openEditSubmissionModal(subId, actId, notes, photoUrl) {
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button type="button" class="btn btn-secondary" onclick="closeGenericModal()">ยกเลิก</button>
-        <button type="submit" class="btn btn-gold">💾 บันทึกการแก้ไข</button>
+        <button type="submit" class="btn btn-gold"> บันทึกการแก้ไข</button>
       </div>
     </form>
   `;
@@ -2113,7 +2166,7 @@ async function handleActivityProofSubmit(event) {
     showToast('ไม่สามารถส่งข้อมูลได้', 'error');
   } finally {
     btn.disabled = false;
-    btn.textContent = '✓ ส่งหลักฐานเช็คกิจกรรม';
+    btn.textContent = ' ส่งหลักฐานเช็คกิจกรรม';
   }
 }
 
@@ -2125,10 +2178,10 @@ function openAdminLoginModal() {
   const title = document.getElementById('generic-modal-title');
   const body = document.getElementById('generic-modal-body');
 
-  title.textContent = '🔐 เข้าสู่ระบบผู้ดูแลระบบหอพัก (Admin)';
+  title.textContent = ' เข้าสู่ระบบผู้ดูแลระบบหอพัก (Admin)';
   body.innerHTML = `
     <div style="text-align:center; margin-bottom:20px;">
-      <div style="font-size:2.4rem; margin-bottom:6px;">👑</div>
+      <div style="font-size:2.4rem; margin-bottom:6px;"></div>
       <h3 style="font-size:1.2rem; font-weight:700; color:#471764;">สำหรับเจ้าหน้าที่หอพัก มรภ.สุรินทร์</h3>
       <p style="font-size:0.82rem; color:#6b7280;">กรุณาใส่ชื่อผู้ใช้งานและรหัสผ่านเฉพาะของเจ้าหน้าที่</p>
     </div>
@@ -2143,7 +2196,7 @@ function openAdminLoginModal() {
         <input type="password" id="admin-modal-password" class="form-input" placeholder="รหัสผ่าน" required value="admin123">
       </div>
       <button type="submit" class="btn btn-primary btn-block" style="margin-top:16px;">
-        👑 เข้าสู่ระบบแอดมิน
+         เข้าสู่ระบบแอดมิน
       </button>
     </form>
   `;
@@ -2198,14 +2251,14 @@ async function renderAdminDashboard() {
       
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
         <div>
-          <h2 style="font-size:1.4rem; font-weight:700; color:#471764;">⚙️ แผงควบคุมระบบหอพัก (Admin Control Center)</h2>
+          <h2 style="font-size:1.4rem; font-weight:700; color:#471764;">️ แผงควบคุมระบบหอพัก (Admin Control Center)</h2>
           <p style="font-size:0.85rem; color:#6b7280;">ควบคุมการเปิด-ปิดรับสมัคร, อนุมัติใบสมัคร, ตรวจกิจกรรม และดูข้อมูลสมาชิกทุกหอพัก</p>
         </div>
         
         <div style="display:flex; align-items:center; gap:14px; background:#ffffff; padding:8px 18px; border-radius:14px; border:1px solid #e5e7eb; box-shadow:var(--shadow-sm);">
           <span style="font-size:0.9rem; font-weight:700; color:#1e293b;">สถานะเปิดรับสมัคร:</span>
           <button id="admin-reg-toggle-btn" class="btn ${stats.registration_open ? 'btn-success' : 'btn-danger'} btn-sm" onclick="toggleRegistrationStatus(!${stats.registration_open})">
-            ${stats.registration_open ? '🟢 เปิดรับสมัครอยู่ (คลิกเพื่อปิด)' : '🔴 ปิดรับสมัครแล้ว (คลิกเพื่อเปิด)'}
+            ${stats.registration_open ? ' เปิดรับสมัครอยู่ (คลิกเพื่อปิด)' : ' ปิดรับสมัครแล้ว (คลิกเพื่อเปิด)'}
           </button>
         </div>
       </div>
@@ -2218,7 +2271,7 @@ async function renderAdminDashboard() {
         </div>
         <div style="background:#ffffff; padding:18px; border-radius:14px; border:1px solid #e5e7eb; box-shadow:var(--shadow-sm);">
           <div style="font-size:0.82rem; color:#6b7280;">รอการอนุมัติ / ผ่านอนุมัติแล้ว</div>
-          <div style="font-size:1.5rem; font-weight:800; color:#d97706;">⏳ ${stats.pending_applicants || 0} / ✅ ${stats.approved_applicants || 0}</div>
+          <div style="font-size:1.5rem; font-weight:800; color:#d97706;">⏳ ${stats.pending_applicants || 0} /  ${stats.approved_applicants || 0}</div>
         </div>
         <div style="background:#ffffff; padding:18px; border-radius:14px; border:1px solid #e5e7eb; box-shadow:var(--shadow-sm);">
           <div style="font-size:0.82rem; color:#6b7280;">รายการกิจกรรมรอตรวจ</div>
@@ -2229,19 +2282,19 @@ async function renderAdminDashboard() {
       <!-- Admin Tabs: Includes All Residents & Points Stats Directory -->
       <div class="dorm-floor-tabs" style="margin-bottom:20px; flex-wrap:wrap; gap:8px;">
         <button class="floor-tab-btn ${currentAdminTab === 'applications' ? 'active' : ''}" onclick="switchAdminTab('applications')">
-          👥 จัดการใบสมัคร (${stats.pending_applicants || 0} รอตรวจ)
+           จัดการใบสมัคร (${stats.pending_applicants || 0} รอตรวจ)
         </button>
         <button class="floor-tab-btn ${currentAdminTab === 'residents_summary' ? 'active' : ''}" onclick="switchAdminTab('residents_summary')">
-          🏢 ข้อมูลสมาชิกทุกหอพัก & สถิติกิจกรรม
+           ข้อมูลสมาชิกทุกหอพัก & สถิติกิจกรรม
         </button>
         <button class="floor-tab-btn ${currentAdminTab === 'reviews' ? 'active' : ''}" onclick="switchAdminTab('reviews')">
-          📸 ตรวจกิจกรรม & เคลียร์คิว (${stats.pending_activity_reviews || 0})
+           ตรวจกิจกรรม & เคลียร์คิว (${stats.pending_activity_reviews || 0})
         </button>
         <button class="floor-tab-btn ${currentAdminTab === 'activities' ? 'active' : ''}" onclick="switchAdminTab('activities')">
-          🏆 จัดการหัวข้อกิจกรรม
+           จัดการหัวข้อกิจกรรม
         </button>
         <button class="floor-tab-btn ${currentAdminTab === 'settings' ? 'active' : ''}" onclick="switchAdminTab('settings')">
-          ⚙️ ตั้งค่าระบบ & วันประกาศผล
+          ️ ตั้งค่าระบบ & วันประกาศผล
         </button>
       </div>
 
@@ -2291,7 +2344,7 @@ async function renderAdminTabContent() {
               <option value="4">หอพักหญิงดาวเรือง</option>
               <option value="5">หอพักหญิงเฟื่องฟ้า</option>
             </select>
-            <input type="text" id="admin-app-search" class="form-input" style="width:240px;" placeholder="🔍 ค้นหาชื่อ, เลขบัตร, โทร..." oninput="filterAdminApps()">
+            <input type="text" id="admin-app-search" class="form-input" style="width:240px;" placeholder=" ค้นหาชื่อ, เลขบัตร, โทร..." oninput="filterAdminApps()">
           </div>
         </div>
 
@@ -2328,7 +2381,7 @@ async function renderAdminTabContent() {
       <div class="data-table-card">
         <div class="data-table-header">
           <div>
-            <h4 style="font-size:1.05rem; font-weight:700; color:#471764;">📸 คิวตรวจสอบและอนุมัติคะแนนกิจกรรม</h4>
+            <h4 style="font-size:1.05rem; font-weight:700; color:#471764;"> คิวตรวจสอบและอนุมัติคะแนนกิจกรรม</h4>
             <p style="font-size:0.8rem; color:#6b7280;">เมื่อตรวจเสร็จแล้ว สามารถกดลบออกจากคิวตรวจได้ทันทีเพื่อไม่ให้ค้างสะสม</p>
           </div>
         </div>
@@ -2366,7 +2419,7 @@ async function renderAdminTabContent() {
                   </td>
                   <td>
                     <span class="status-badge ${s.status}">
-                      ${s.status === 'approved' ? '✓ อนุมัติแล้ว' : (s.status === 'pending' ? '⏳ รอตรวจ' : '✕ ไม่อนุมัติ')}
+                      ${s.status === 'approved' ? ' อนุมัติแล้ว' : (s.status === 'pending' ? '⏳ รอตรวจ' : ' ไม่อนุมัติ')}
                     </span>
                   </td>
                   <td>
@@ -2375,11 +2428,11 @@ async function renderAdminTabContent() {
                   <td>
                     <div style="display:flex; flex-direction:column; gap:6px;">
                       <div style="display:flex; gap:4px;">
-                        <button class="btn btn-success btn-sm" onclick="reviewSub(${s.id}, 'approved')" title="อนุมัติและบันทึกคะแนน">✓ อนุมัติ</button>
-                        <button class="btn btn-danger btn-sm" onclick="reviewSub(${s.id}, 'rejected')" title="ปฏิเสธ">✕ ปฏิเสธ</button>
+                        <button class="btn btn-success btn-sm" onclick="reviewSub(${s.id}, 'approved')" title="อนุมัติและบันทึกคะแนน"> อนุมัติ</button>
+                        <button class="btn btn-danger btn-sm" onclick="reviewSub(${s.id}, 'rejected')" title="ปฏิเสธ"> ปฏิเสธ</button>
                       </div>
                       <button class="btn btn-secondary btn-sm" onclick="adminDeleteSubmission(${s.id})" style="font-size:0.72rem; padding:3px 6px;" title="ลบออกจากคิวตรวจ">
-                        🗑️ ลบออกจากคิว
+                        ️ ลบออกจากคิว
                       </button>
                     </div>
                   </td>
@@ -2396,7 +2449,7 @@ async function renderAdminTabContent() {
 
     mount.innerHTML = `
       <div style="background:#ffffff; border-radius:18px; border:1px solid #e5e7eb; padding:24px; box-shadow:var(--shadow-sm); margin-bottom:24px;">
-        <h4 style="font-size:1.1rem; font-weight:700; color:#471764; margin-bottom:14px;">➕ เพิ่มหัวข้อกิจกรรมหอพักใหม่ (เกณฑ์คะแนนเต็ม 100)</h4>
+        <h4 style="font-size:1.1rem; font-weight:700; color:#471764; margin-bottom:14px;"> เพิ่มหัวข้อกิจกรรมหอพักใหม่ (เกณฑ์คะแนนเต็ม 100)</h4>
         <form onsubmit="handleCreateActivity(event)">
           <div class="form-row">
             <div class="form-group" style="grid-column:span 2;">
@@ -2439,7 +2492,7 @@ async function renderAdminTabContent() {
 
       <div class="data-table-card">
         <div class="data-table-header">
-          <h4 style="font-size:1.05rem; font-weight:700; color:#471764;">📋 รายการกิจกรรมทั้งหมด</h4>
+          <h4 style="font-size:1.05rem; font-weight:700; color:#471764;"> รายการกิจกรรมทั้งหมด</h4>
         </div>
         <div class="table-responsive">
           <table class="custom-table">
@@ -2462,7 +2515,7 @@ async function renderAdminTabContent() {
                   <td>${a.total_submissions || 0} คน</td>
                   <td>${a.approved_submissions || 0} คน</td>
                   <td>
-                    <button class="btn btn-danger btn-sm" onclick="deleteActivity(${a.id})">🗑️ ลบ</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteActivity(${a.id})">️ ลบ</button>
                   </td>
                 </tr>
               `).join('')}
@@ -2476,7 +2529,7 @@ async function renderAdminTabContent() {
 
     mount.innerHTML = `
       <div style="background:#ffffff; border-radius:18px; border:1px solid #e5e7eb; padding:28px; box-shadow:var(--shadow-sm); max-width:750px;">
-        <h3 style="font-size:1.2rem; font-weight:700; color:#471764; margin-bottom:20px;">⚙️ ตั้งค่ากำหนดการและระบบประกาศผล</h3>
+        <h3 style="font-size:1.2rem; font-weight:700; color:#471764; margin-bottom:20px;">️ ตั้งค่ากำหนดการและระบบประกาศผล</h3>
         
         <form onsubmit="handleSaveSettings(event)">
           <div class="form-group">
@@ -2519,7 +2572,7 @@ async function renderAdminTabContent() {
 
           <div style="display:flex; justify-content:flex-end; margin-top:20px;">
             <button type="submit" class="btn btn-gold">
-              💾 บันทึกการตั้งค่าระบบ
+               บันทึกการตั้งค่าระบบ
             </button>
           </div>
         </form>
@@ -2547,7 +2600,7 @@ async function renderAdminResidentsSummaryView() {
     <!-- Top System Activity & Resident Stats Banner -->
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:14px; margin-bottom:20px;">
       <div style="background:#ffffff; border-radius:14px; border:1px solid #e5e7eb; padding:18px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:14px;">
-        <div style="width:48px; height:48px; border-radius:12px; background:#f3ebf9; color:#471764; display:flex; align-items:center; justify-content:center; font-size:1.6rem;">👥</div>
+        <div style="width:48px; height:48px; border-radius:12px; background:#f3ebf9; color:#471764; display:flex; align-items:center; justify-content:center; font-size:1.6rem;"></div>
         <div>
           <div style="font-size:0.8rem; color:#6b7280; font-weight:600;">นักศึกษาทั้งหมดในระบบ</div>
           <div style="font-size:1.45rem; font-weight:800; color:#1e293b;">${totalRegistered} <span style="font-size:0.85rem; font-weight:500; color:#6b7280;">คน</span></div>
@@ -2555,7 +2608,7 @@ async function renderAdminResidentsSummaryView() {
       </div>
 
       <div style="background:#ffffff; border-radius:14px; border:1px solid #e5e7eb; padding:18px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:14px;">
-        <div style="width:48px; height:48px; border-radius:12px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:1.6rem;">🏢</div>
+        <div style="width:48px; height:48px; border-radius:12px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:1.6rem;"></div>
         <div>
           <div style="font-size:0.8rem; color:#6b7280; font-weight:600;">สมาชิกหอพัก (อนุมัติแล้ว)</div>
           <div style="font-size:1.45rem; font-weight:800; color:#059669;">${approvedResidentsCount} <span style="font-size:0.85rem; font-weight:500; color:#6b7280;">คน</span></div>
@@ -2571,7 +2624,7 @@ async function renderAdminResidentsSummaryView() {
       </div>
 
       <div style="background:#ffffff; border-radius:14px; border:1px solid #e5e7eb; padding:18px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:14px;">
-        <div style="width:48px; height:48px; border-radius:12px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-size:1.6rem;">🏆</div>
+        <div style="width:48px; height:48px; border-radius:12px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-size:1.6rem;"></div>
         <div>
           <div style="font-size:0.8rem; color:#6b7280; font-weight:600;">ผ่านเกณฑ์กิจกรรม (≥80 แต้ม)</div>
           <div style="font-size:1.45rem; font-weight:800; color:#2563eb;">${passedActivityCount} <span style="font-size:0.85rem; font-weight:500; color:#6b7280;">/ ${totalRegistered} คน</span></div>
@@ -2589,7 +2642,7 @@ async function renderAdminResidentsSummaryView() {
             ${d.approved_residents || 0} <span style="font-size:0.75rem; font-weight:400; color:#6b7280;">/ ${d.total_capacity} เตียง</span>
           </div>
           <div style="font-size:0.72rem; color:#059669; font-weight:600; margin-top:3px;">
-            ✓ ผ่านกิจกรรม: ${d.passed_activity_count || 0} คน
+             ผ่านกิจกรรม: ${d.passed_activity_count || 0} คน
           </div>
         </div>
       `).join('')}
@@ -2599,7 +2652,7 @@ async function renderAdminResidentsSummaryView() {
     <div class="data-table-card">
       <div class="data-table-header" style="flex-wrap:wrap; gap:14px;">
         <div>
-          <h4 style="font-size:1.1rem; font-weight:700; color:#471764;">📋 ข้อมูลนักศึกษาทุกคนในหอพัก และสถิติกิจกรรมสะสม</h4>
+          <h4 style="font-size:1.1rem; font-weight:700; color:#471764;"> ข้อมูลนักศึกษาทุกคนในหอพัก และสถิติกิจกรรมสะสม</h4>
           <p style="font-size:0.82rem; color:#6b7280;">แสดงข้อมูลส่วนตัว ผู้ปกครอง การติดต่อ และความคืบหน้าคะแนนกิจกรรมเปรียบเทียบกับเกณฑ์ 80 คะแนน</p>
         </div>
         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
@@ -2618,11 +2671,11 @@ async function renderAdminResidentsSummaryView() {
           </select>
           <select id="admin-res-act-filter" class="form-select" style="width:160px;" onchange="filterAdminResidentsSummary()">
             <option value="all">สถานะกิจกรรมทั้งหมด</option>
-            <option value="passed">🎉 ผ่านเกณฑ์ (≥80 แต้ม)</option>
+            <option value="passed"> ผ่านเกณฑ์ (≥80 แต้ม)</option>
             <option value="failed">⏳ กำลังสะสม (<80 แต้ม)</option>
           </select>
-          <input type="text" id="admin-res-search" class="form-input" style="width:180px;" placeholder="🔍 ค้นหาชื่อ, ปชช, คณะ..." oninput="filterAdminResidentsSummary()">
-          <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ พิมพ์รายงาน</button>
+          <input type="text" id="admin-res-search" class="form-input" style="width:180px;" placeholder=" ค้นหาชื่อ, ปชช, คณะ..." oninput="filterAdminResidentsSummary()">
+          <button class="btn btn-secondary btn-sm" onclick="window.print()">️ พิมพ์รายงาน</button>
         </div>
       </div>
 
@@ -2668,17 +2721,17 @@ function renderAdminResidentsSummaryRows(residents) {
           </span>
           <div style="margin-top:2px;">
             <span class="status-badge ${r.status}" style="font-size:0.68rem; padding:1px 6px;">
-              ${r.status === 'approved' ? '✓ สมาชิกหอ' : '⏳ รออนุมัติ'}
+              ${r.status === 'approved' ? ' สมาชิกหอ' : '⏳ รออนุมัติ'}
             </span>
           </div>
         </td>
         <td>
           <div style="font-weight:700; color:#1e293b;">${r.prefix} ${r.first_name} ${r.last_name}</div>
-          ${r.id_card_file ? `<a href="${r.id_card_file}" target="_blank" style="font-size:0.72rem; color:#3b82f6; text-decoration:underline;">📄 ดูสำเนาบัตร</a>` : '<span style="font-size:0.7rem; color:#94a3b8;">ไม่มีเอกสารแนบ</span>'}
+          ${r.id_card_file ? `<a href="${r.id_card_file}" target="_blank" style="font-size:0.72rem; color:#3b82f6; text-decoration:underline;"> ดูสำเนาบัตร</a>` : '<span style="font-size:0.7rem; color:#94a3b8;">ไม่มีเอกสารแนบ</span>'}
         </td>
         <td style="font-family:monospace; font-weight:600; font-size:0.82rem;">${r.citizen_id}</td>
         <td>
-          <div>📞 ${r.phone}</div>
+          <div> ${r.phone}</div>
           <div style="font-size:0.75rem; color:#6b7280;">${r.faculty || '-'}<br>(${r.major || '-'})</div>
         </td>
         <td>
@@ -2696,12 +2749,12 @@ function renderAdminResidentsSummaryRows(residents) {
             <div style="width:${progressPercent}%; height:100%; background:${isPassed ? 'linear-gradient(90deg, #10b981, #059669)' : 'linear-gradient(90deg, #f59e0b, #d97706)'}; border-radius:3px;"></div>
           </div>
           <div style="font-size:0.7rem; color:#6b7280; margin-top:3px;">
-            ${isPassed ? '✓ ครบเกณฑ์แล้ว' : `ขาดอีก ${Math.max(0, 80 - pts)} แต้ม`}
+            ${isPassed ? ' ครบเกณฑ์แล้ว' : `ขาดอีก ${Math.max(0, 80 - pts)} แต้ม`}
           </div>
         </td>
         <td>
           <span class="status-badge ${isPassed ? 'approved' : 'rejected'}" style="font-size:0.72rem; padding:3px 6px; display:inline-block; text-align:center;">
-            ${isPassed ? '🎉 ผ่านเกณฑ์' : '⏳ ยังไม่ผ่าน'}
+            ${isPassed ? ' ผ่านเกณฑ์' : '⏳ ยังไม่ผ่าน'}
           </span>
         </td>
       </tr>
@@ -2739,21 +2792,21 @@ function renderAdminAppsRows(apps) {
       </td>
       <td style="font-size:0.85rem;">${a.phone}</td>
       <td>
-        ${a.id_card_file ? `<a href="${a.id_card_file}" target="_blank" style="color:#3b82f6; font-size:0.82rem; text-decoration:underline;">📄 ดูสำเนาบัตร</a>` : '<span style="color:#ef4444; font-size:0.75rem;">ไม่มี</span>'}
+        ${a.id_card_file ? `<a href="${a.id_card_file}" target="_blank" style="color:#3b82f6; font-size:0.82rem; text-decoration:underline;"> ดูสำเนาบัตร</a>` : '<span style="color:#ef4444; font-size:0.75rem;">ไม่มี</span>'}
       </td>
       <td>
         <span class="status-badge ${a.status}">
-          ${a.status === 'approved' ? '✓ อนุมัติแล้ว' : '⏳ รออนุมัติ'}
+          ${a.status === 'approved' ? ' อนุมัติแล้ว' : '⏳ รออนุมัติ'}
         </span>
       </td>
       <td>
         <div style="display:flex; gap:6px;">
           ${a.status === 'pending' ? `
-            <button class="btn btn-success btn-sm" onclick="adminApproveApp(${a.id})" title="อนุมัติใบสมัคร">✓ อนุมัติ</button>
+            <button class="btn btn-success btn-sm" onclick="adminApproveApp(${a.id})" title="อนุมัติใบสมัคร"> อนุมัติ</button>
           ` : `
             <button class="btn btn-secondary btn-sm" onclick="adminUnapproveApp(${a.id})" title="ยกเลิกการอนุมัติ">↩ รออนุมัติ</button>
           `}
-          <button class="btn btn-danger btn-sm" onclick="adminDeleteApp(${a.id})" title="ลบใบสมัคร">🗑️</button>
+          <button class="btn btn-danger btn-sm" onclick="adminDeleteApp(${a.id})" title="ลบใบสมัคร">️</button>
         </div>
       </td>
     </tr>
@@ -2866,7 +2919,7 @@ async function deleteActivity(id) {
 }
 
 async function adminDeleteApp(id) {
-  if (!confirm('⚠️ ต้องการลบใบสมัครนี้หรือไม่? สิทธิ์ห้องพักจะถูกคืนให้ระบบ')) return;
+  if (!confirm('️ ต้องการลบใบสมัครนี้หรือไม่? สิทธิ์ห้องพักจะถูกคืนให้ระบบ')) return;
   try {
     const res = await API.deleteAdminApp(id);
     if (res.success) {
@@ -2909,10 +2962,10 @@ function openLoginModal() {
   const title = document.getElementById('generic-modal-title');
   const body = document.getElementById('generic-modal-body');
 
-  title.textContent = '🔑 เข้าสู่ระบบตรวจสอบข้อมูล';
+  title.textContent = ' เข้าสู่ระบบตรวจสอบข้อมูล';
   body.innerHTML = `
     <div style="text-align:center; margin-bottom:20px;">
-      <div style="font-size:2rem; margin-bottom:4px;">🏛️</div>
+      <div style="font-size:2rem; margin-bottom:4px;">️</div>
       <h3 style="font-size:1.15rem; font-weight:700; color:#471764;">ระบบหอพัก มหาวิทยาลัยราชภัฏสุรินทร์</h3>
       <p style="font-size:0.82rem; color:#6b7280;">กรอกเลขบัตรประชาชนและรหัสผ่านที่คุณสร้างไว้ตอนสมัคร</p>
     </div>
@@ -2965,7 +3018,7 @@ async function viewDormRoomsModal(dormId) {
   const title = document.getElementById('generic-modal-title');
   const body = document.getElementById('generic-modal-body');
 
-  title.textContent = '🏢 ผังห้องพักและสถานะเตียงว่าง';
+  title.textContent = ' ผังห้องพักและสถานะเตียงว่าง';
   body.innerHTML = `<div id="modal-room-selector-mount" style="min-height:350px;"></div>`;
   modal.classList.add('active');
 
